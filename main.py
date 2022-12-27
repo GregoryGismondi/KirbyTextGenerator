@@ -14,14 +14,14 @@ Program Steps:
     c) Place Kirby in the centre of the text
 3. Display ASCII Art
 """
-from asciis import ascii_dict
+from asciis import ascii_dict, kirby
 
 
-def str_to_ascii(characters: str) -> list[list[list[str]]]:
+def str_to_ascii(characters: str) -> list[list[str]]:
     """
     Takes a string of letters of the alphabet in lowercase and returns the
-    ASCII version of each of its characters from asciis.py in the form of
-    a string table
+    ASCII version of each of its characters from asciis.py. Returns a list
+    of each ASCII characters value
 
     Preconditions:
     - all([97 <= ord(character) <= 122 for character in characters])
@@ -31,6 +31,40 @@ def str_to_ascii(characters: str) -> list[list[list[str]]]:
         ascii_characters.append(ascii_dict[char])
 
     return ascii_characters
+
+
+def ascii_creater(ascii_characters: list[list[str]]) -> list[str]:
+    """
+    Combines the ASCII artworks of the given strings into one ASCII artwork, with each row being an
+    element in a list
+    """
+    main_ascii = []
+
+    # Height of Sign = Tallest character + 2 (for spacing purposes)
+    sign_height = -1 + max({len(ascii_character) for ascii_character in ascii_characters}) + 2
+
+    # Width of Sign = Number of Spaces (# of characters - 1) + width of all characters
+    sign_width = len(ascii_characters) - 1 + sum([len(ascii_character[0]) for ascii_character in ascii_characters])
+
+    # Case 1: Sign Width < 32 (Must center text)
+    if sign_width < 30:
+        main_ascii.append('_' * 36)
+        main_ascii.append('|' + ' ' * 34 + '|')
+
+        for i in range(sign_height - 1, -1, -1):
+            for ascii_character in ascii_characters:
+                if i >= len(ascii_character):
+                    main_ascii.insert(2, '| ' + ' ' * 32 + ' |')
+                else:
+                    main_ascii.insert(2, '| ' + ascii_character[i].center(32) + ' |')
+
+        main_ascii.append('|' + kirby[0] + '|')
+        for i in range(1, len(kirby)):
+            main_ascii.append(' ' + kirby[i] + ' ')
+
+    # Case 2: Sign Width >= (Must extend Kirby ASCII)
+
+    return main_ascii
 
 
 # Intro Messages
@@ -43,6 +77,7 @@ message = input('Please input your message:')
 # Converting to ASCII
 ascii_message = str_to_ascii(message)
 
-for letter in ascii_message:
-    for row in letter:
-        print(row)
+final_message = ascii_creater(ascii_message)
+
+for row in final_message:
+    print(row)
