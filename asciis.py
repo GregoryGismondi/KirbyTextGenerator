@@ -3,7 +3,7 @@
 All ASCII artwork generated has been created either through the Figlet program
 or my own personal creation
 
-Key Notes on ASCIIs:
+Notes on ASCIIs:
 
 1. All rows of the ASCII lists MUST have the same length
 2. ASCII characters must be added to the ascii_dict dictionary to be used
@@ -25,5 +25,23 @@ a_lower_block = ["  ###### ##",
                  " ##########",
                  "  ###### ##"]
 
+b_lower_block = ["##         ",
+                 "##         ",
+                 "##         ",
+                 "##         ",
+                 "##         ",
+                 "## ######  ",
+                 "########## ",
+                 "###     ###",
+                 "##       ##",
+                 "###     ###",
+                 "########## ",
+                 "## ######  "]
+
+# Symbols
+
+# Special Characters
+space_block = ["      "]
+
 # Main List
-ascii_dict = {'a': a_lower_block}
+ascii_dict = {'a': a_lower_block, 'b': b_lower_block, ' ': space_block}

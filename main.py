@@ -46,23 +46,49 @@ def ascii_creater(ascii_characters: list[list[str]]) -> list[str]:
     # Width of Sign = Number of Spaces (# of characters - 1) + width of all characters
     sign_width = len(ascii_characters) - 1 + sum([len(ascii_character[0]) for ascii_character in ascii_characters])
 
-    # Case 1: Sign Width < 32 (Must center text)
-    if sign_width < 30:
-        main_ascii.append('_' * 36)
-        main_ascii.append('|' + ' ' * 34 + '|')
+    # Minimum sign width is 32
+    sign_width = max(32, sign_width)
 
-        for i in range(sign_height - 1, -1, -1):
-            for ascii_character in ascii_characters:
-                if i >= len(ascii_character):
-                    main_ascii.insert(2, '| ' + ' ' * 32 + ' |')
-                else:
-                    main_ascii.insert(2, '| ' + ascii_character[i].center(32) + ' |')
+    # Scaling Version (Works for all Lengths)
+    main_ascii.append('_' * (sign_width + 4))
+    main_ascii.append('|' + ' ' * (sign_width + 2) + '|')
 
-        main_ascii.append('|' + kirby[0] + '|')
-        for i in range(1, len(kirby)):
-            main_ascii.append(' ' + kirby[i] + ' ')
+    # Starts drawing rows from the bottom to the top
+    # for i in range(sign_height - 1, -1, -1):
+    #     current_row = ''
+    #
+    #     # Takes the given row at current index i and adds to overall row string
+    #     for ascii_character in ascii_characters:
+    #         # If the current letter is not tall enough (Will return blank line)
+    #         if i >= len(ascii_character):
+    #             current_row += ' ' * (len(ascii_character[0]) + 1)  # All characters will have an index 0
+    #         else:
+    #             current_row += ascii_character[i] + ' '
+    #
+    #     # Inserts each created row
+    #     main_ascii.insert(2, '| ' + current_row.center(sign_width + 1) + '|')
 
-    # Case 2: Sign Width >= (Must extend Kirby ASCII)
+    for i in range(sign_height - 1):
+        current_row = ''
+
+        # Takes the given row at current index i and adds to overall row string
+        for ascii_character in ascii_characters:
+            # If the current letter is not tall enough (Will return blank line)
+            if 0 > len(ascii_character) - i - 1:
+                current_row += ' ' * (len(ascii_character[0]) + 1)  # All characters will have an index 0
+            else:
+                current_row += ascii_character[len(ascii_character) - i - 1] + ' '
+
+        # Inserts each created row
+        main_ascii.insert(2, '| ' + current_row.center(sign_width + 1) + '|')
+
+    # Adding extra row on the bottom
+    main_ascii.append('| ' + ' ' * sign_width + ' |')
+
+    # Adding Kirby artwork, scaling based on length of message
+    main_ascii.append('|' + kirby[0].center(sign_width + 2, '_') + '|')
+    for i in range(1, len(kirby)):
+        main_ascii.append(kirby[i].center(sign_width + 4))
 
     return main_ascii
 
@@ -77,7 +103,9 @@ message = input('Please input your message:')
 # Converting to ASCII
 ascii_message = str_to_ascii(message)
 
+# Creating final message
 final_message = ascii_creater(ascii_message)
 
+# Outputting final message
 for row in final_message:
     print(row)
