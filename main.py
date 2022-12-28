@@ -83,7 +83,7 @@ def ascii_creater(ascii_characters: list[list[str]]) -> list[str]:
 
 
 # Intro Messages
-print('Kirby Drawing Generator v.01 - By: Gregory Gismondi')
+print('Kirby Drawing Generator v.02 - By: Gregory Gismondi')
 print('Currently the generator only supports the 26 characters of the alphabet in lowercase\n')
 
 # Taking User Input
