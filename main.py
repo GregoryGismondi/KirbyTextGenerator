@@ -53,21 +53,6 @@ def ascii_creater(ascii_characters: list[list[str]]) -> list[str]:
     main_ascii.append('_' * (sign_width + 4))
     main_ascii.append('|' + ' ' * (sign_width + 2) + '|')
 
-    # Starts drawing rows from the bottom to the top
-    # for i in range(sign_height - 1, -1, -1):
-    #     current_row = ''
-    #
-    #     # Takes the given row at current index i and adds to overall row string
-    #     for ascii_character in ascii_characters:
-    #         # If the current letter is not tall enough (Will return blank line)
-    #         if i >= len(ascii_character):
-    #             current_row += ' ' * (len(ascii_character[0]) + 1)  # All characters will have an index 0
-    #         else:
-    #             current_row += ascii_character[i] + ' '
-    #
-    #     # Inserts each created row
-    #     main_ascii.insert(2, '| ' + current_row.center(sign_width + 1) + '|')
-
     for i in range(sign_height - 1):
         current_row = ''
 
@@ -77,10 +62,14 @@ def ascii_creater(ascii_characters: list[list[str]]) -> list[str]:
             if 0 > len(ascii_character) - i - 1:
                 current_row += ' ' * (len(ascii_character[0]) + 1)  # All characters will have an index 0
             else:
-                current_row += ascii_character[len(ascii_character) - i - 1] + ' '
+                if ascii_character[len(ascii_character) - i - 1] == '':
+                    current_row += ' ' * (len(ascii_character[0]) + 1)
+                else:
+                    current_row += ascii_character[len(ascii_character) - i - 1] + ' '
 
-        # Inserts each created row
-        main_ascii.insert(2, '| ' + current_row.center(sign_width + 1) + '|')
+        # Inserts each created row if row is not fully blank
+        if not all({' ' == char for char in current_row}):
+            main_ascii.insert(2, '| ' + current_row.center(sign_width + 1) + '|')
 
     # Adding extra row on the bottom
     main_ascii.append('| ' + ' ' * sign_width + ' |')
@@ -98,7 +87,7 @@ print('Kirby Drawing Generator v.01 - By: Gregory Gismondi')
 print('Currently the generator only supports the 26 characters of the alphabet in lowercase\n')
 
 # Taking User Input
-message = input('Please input your message:')
+message = input('Please input your message: ')
 
 # Converting to ASCII
 ascii_message = str_to_ascii(message)
