@@ -24,7 +24,8 @@ def str_to_ascii(characters: str) -> list[list[str]]:
     of each ASCII characters value
 
     Preconditions:
-    - all([97 <= ord(character) <= 122 for character in characters])
+    - all([(97 <= ord(character) <= 122) or (32 <= ord(character) <= 33) or ord(character) == 39
+    for character in characters])
     """
     ascii_characters = []
     for char in characters:
@@ -83,7 +84,7 @@ def ascii_creater(ascii_characters: list[list[str]]) -> list[str]:
 
 
 # Intro Messages
-print('Kirby Drawing Generator v.02 - By: Gregory Gismondi')
+print('Kirby Drawing Generator v.03 - By: Gregory Gismondi')
 print('Currently the generator only supports the 26 characters of the alphabet in lowercase\n')
 
 # Taking User Input
